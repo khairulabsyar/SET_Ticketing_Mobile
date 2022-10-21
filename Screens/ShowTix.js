@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { Box, Button, Dialog, Paper } from "@react-native-material/core";
 // import { ShowDialog } from "./Components";
 import { UseAuth, UseDialog } from "../Hooks";
-import { View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { RenderTicket } from "./RenderTicket";
 
-const ShowTix = () => {
+const ShowTix = (props) => {
   const { token, delTick, role } = UseAuth();
   const [ticket, setTicket] = useState([]);
   const { tixOpen, showTixDetails, closeTixDetails } = UseDialog();
@@ -16,7 +17,7 @@ const ShowTix = () => {
   };
 
   const fetchTicket = () => {
-    return axios.get("http://127.0.0.1:8000/api/ticket", config);
+    return axios.get("http://18.142.225.70/api/ticket", config);
   };
 
   const { data, isLoading, isError, error, refetch } = useQuery(
@@ -24,7 +25,7 @@ const ShowTix = () => {
     fetchTicket,
     {
       enabled: true,
-      onSuccess: (res) => {
+      onSuccess: () => {
         // console.log("Successfull", res);
       },
       onError: (res) => {
@@ -34,10 +35,18 @@ const ShowTix = () => {
   );
 
   if (isLoading) {
-    return <View>Loading...</View>;
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
   }
   if (isError) {
-    return <View>Error! {error.message}</View>;
+    return (
+      <View>
+        <Text>Error! {error.message}</Text>
+      </View>
+    );
   }
 
   const Tickets = data?.data?.data;
@@ -60,23 +69,22 @@ const ShowTix = () => {
     handleFetch();
   };
 
+  const renderItem = ({ item }) => (
+    <RenderTicket item={item} navigation={props.navigation} />
+  );
+
   return (
     <>
-      <Box sx={{ display: "flex", width: 1, flexDirection: "column" }}>
-        {/* In Progress & Backlog */}
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "5%",
-            justifyContent: "center",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <h1>In Progress & Backlog Ticket</h1>
-          {Tickets.map((ticket) =>
+      <View style={styles.container}>
+        <FlatList
+          data={Tickets}
+          numColumns={2}
+          contentContainerStyle={styles.list}
+          renderItem={renderItem}
+          showsHorizontalScrollIndicator={false}
+        />
+
+        {/* {Tickets.map((ticket) =>
             ticket.status !== "Complete" ? (
               <Box
                 elevation={4}
@@ -89,9 +97,9 @@ const ShowTix = () => {
                   justifyContent: "space-between",
                   margin: 2,
                 }}
-              >
-                {/* Left Side */}
-                <View
+              > */}
+        {/* Left Side */}
+        {/* <View
                   style={{
                     display: "flex",
                     width: "90%",
@@ -100,25 +108,25 @@ const ShowTix = () => {
                   }}
                 >
                   <Box sx={{ width: "20%" }}>
-                    <h1>
+                    <Text>
                       #{ticket.id}: {ticket.title}
-                    </h1>
+                    </Text>
                   </Box>
                   <Box sx={{ width: "30%" }}>
-                    <h1>Description: {ticket.description}</h1>
+                    <Text>Description: {ticket.description}</Text>
                   </Box>
                   <Box sx={{ width: "25%" }}>
-                    <h1>Created By: {ticket.username}</h1>
+                    <Text>Created By: {ticket.username}</Text>
                   </Box>
                   <Box sx={{ width: "25%" }}>
-                    <h1>
+                    <Text>
                       Assign to:{" "}
                       {ticket.developer ? ticket.developer : "Unassigned"}
-                    </h1>
+                    </Text>
                   </Box>
-                </View>
-                {/* Right Side */}
-                <View
+                </View> */}
+        {/* Right Side */}
+        {/* <View
                   style={{
                     display: "flex",
                     width: "10%",
@@ -145,22 +153,11 @@ const ShowTix = () => {
                 </View>
               </Box>
             ) : null
-          )}
-        </Box>
+          )} */}
 
         {/* Completed*/}
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "5%",
-            justifyContent: "center",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <h1>Completed Tickets</h1>
+
+        {/* <Text>Completed Tickets</Text>
           {Tickets.map((ticket) =>
             ticket.status === "Complete" ? (
               <Box
@@ -174,9 +171,9 @@ const ShowTix = () => {
                   justifyContent: "space-between",
                   margin: 2,
                 }}
-              >
-                {/* Left Side */}
-                <div
+              > */}
+        {/* Left Side */}
+        {/* <div
                   style={{
                     display: "flex",
                     width: "90%",
@@ -185,34 +182,64 @@ const ShowTix = () => {
                   }}
                 >
                   <Box sx={{ width: "20%" }}>
-                    <h1>
+                    <Text>
                       #{ticket.id}: {ticket.title}
-                    </h1>
+                    </Text>
                   </Box>
                   <Box sx={{ width: "30%" }}>
-                    <h1>Description: {ticket.description}</h1>
+                    <Text>Description: {ticket.description}</Text>
                   </Box>
                   <Box sx={{ width: "25%" }}>
-                    <h1>Created By: {ticket.username}</h1>
+                    <Text>Created By: {ticket.username}</Text>
                   </Box>
                   <Box sx={{ width: "25%" }}>
-                    <h1>
+                    <Text>
                       Assign to:{" "}
                       {ticket.developer ? ticket.developer : "Unassigned"}
-                    </h1>
+                    </Text>
                   </Box>
                 </div>
               </Box>
             ) : null
-          )}
-        </Box>
-      </Box>
+          )} */}
 
-      {/* <Dialog open={tixOpen} onClose={handleCloseDialog}>
+        {/* <Dialog open={tixOpen} onClose={handleCloseDialog}>
         <ShowDialog ticket={ticket} />
       </Dialog> */}
+      </View>
     </>
   );
 };
 
 export default ShowTix;
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "lightblue",
+    alignItems: "center",
+    width: "100%",
+    height: "100%",
+  },
+  TicketContainer: {
+    backgroundColor: "#cbced1",
+    width: 160,
+    height: 250,
+    paddingLeft: 5,
+    paddingRight: 5,
+    borderRadius: 15,
+    marginTop: 15,
+    padding: 10,
+    justifyContent: "center",
+    marginLeft: 7,
+  },
+  textContainer: {
+    flexDirection: "row",
+    backgroundColor: "#cbced1",
+    width: "100%",
+    paddingLeft: 5,
+    paddingRight: 5,
+    marginTop: 5,
+    borderRadius: 15,
+    alignItems: "center",
+  },
+});

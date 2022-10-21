@@ -4,32 +4,32 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Pokedex from "../Screens/Pokedex";
 import PokemonDetail from "../Screens/PokemonDetail";
-import { PokemonStackParamList } from "./types";
 import { getBackgroundColor } from "../function";
 import SignUp from "../Screens/SignUp";
 import SignIn from "../Screens/SignIn";
 import { AuthProvider, DialogProvider } from "../Providers";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { UseAuth } from "../Hooks";
+import ShowTix from "../Screens/ShowTix";
 
-const PokemonStack = createNativeStackNavigator<PokemonStackParamList>();
+const ticketingStack = createNativeStackNavigator();
 
 export default function App() {
   const { logout, token } = UseAuth();
   return (
     <DialogProvider>
       <NavigationContainer>
-        <PokemonStack.Navigator initialRouteName='Login'>
+        <ticketingStack.Navigator initialRouteName='Login'>
           {!token ? (
             <>
-              <PokemonStack.Screen name={"Register"} component={SignUp} />
-              <PokemonStack.Screen name={"Login"} component={SignIn} />
+              <ticketingStack.Screen name={"Register"} component={SignUp} />
+              <ticketingStack.Screen name={"Login"} component={SignIn} />
             </>
           ) : (
             <>
-              <PokemonStack.Screen
-                name={"Pokedex"}
-                component={Pokedex}
+              <ticketingStack.Screen
+                name={"Tickets"}
+                component={ShowTix}
                 options={{
                   headerRight: () => {
                     return (
@@ -43,7 +43,7 @@ export default function App() {
                   },
                 }}
               />
-              <PokemonStack.Screen
+              {/* <ticketingStack.Screen
                 name={"PokemonDetail"}
                 component={PokemonDetail}
                 options={({ navigation, route }) => ({
@@ -63,7 +63,7 @@ export default function App() {
                     />
                   ),
                   headerRight: () => {
-                    const [selected, SetSelected] = useState<boolean>();
+                    const [selected, SetSelected] = useState();
 
                     return (
                       <Entypo
@@ -75,10 +75,10 @@ export default function App() {
                     );
                   },
                 })}
-              />
+              /> */}
             </>
           )}
-        </PokemonStack.Navigator>
+        </ticketingStack.Navigator>
       </NavigationContainer>
     </DialogProvider>
   );

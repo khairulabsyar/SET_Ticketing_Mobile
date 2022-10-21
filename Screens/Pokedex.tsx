@@ -4,13 +4,12 @@ import { getData, Pokemon } from "../api";
 import { SafeAreaView } from "react-native";
 import { PokemonStackParamList } from "../Navigation/types";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RenderPokemon } from "./RenderPokemon";
+import { RenderPokemon } from "./RenderTicket";
 import DetailNavigator from "../Navigation/DetailNavigator";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ShowTix from "./ShowTix";
 import CreateTix from "./CreateTix";
 
-type Props = NativeStackScreenProps<PokemonStackParamList, "Pokedex">;
 const Tab = createBottomTabNavigator();
 
 function Pokedex(props: Props) {

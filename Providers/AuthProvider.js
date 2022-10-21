@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from "react";
 import AuthContext from "../Context/AuthContext";
-// import { useNavigate } from "react-router-dom";
 import { apiSignIn, apiGetDev } from "../Api/users";
 import { createTix, editTix, delTix, showTix } from "../Api/tickets";
+import { Alert } from "react-native";
+
+function alert(arg0) {
+  throw new Error(arg0);
+}
 
 function AuthProvider({ children }) {
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
   const [role, setRole] = useState(null);
+  const [sucessLogin, setSucessLogin] = useState(null);
   const [id, setId] = useState(null);
   const [getDevList, setGetDevList] = useState(null);
 
@@ -20,11 +25,14 @@ function AuthProvider({ children }) {
 
   const signin = async (luser) => {
     const { data } = await apiSignIn(luser);
-    if (data.message === "Success Login" && data.data.token) {
+    if (data?.message === "Success Login" && data?.data?.token) {
+      setSucessLogin(true);
       setToken(data?.data?.token);
       setUser(data?.data?.firstName);
       setRole(data?.data?.role);
       setId(data?.data?.id);
+    } else {
+      setSucessLogin(false);
     }
   };
 
@@ -59,7 +67,7 @@ function AuthProvider({ children }) {
       headers: { Authorization: `Bearer ${token}` },
     };
     await delTix(config, id);
-    alert("Ticket deleted!");
+    Alert.alert("Ticket deleted!");
   };
 
   const editTicket = async (tick, id) => {
@@ -85,6 +93,8 @@ function AuthProvider({ children }) {
         editTicket,
         deleteTicket,
         getDeveloper,
+        sucessLogin,
+        setSucessLogin,
       }}
     >
       {children}

@@ -1,4 +1,9 @@
 import axios from "axios";
+import { Alert } from "react-native";
+
+function alert(arg0) {
+  throw new Error(arg0);
+}
 
 export const get = async (endpoint, body, options, config) => {
   try {
@@ -15,7 +20,7 @@ export const post = async (endpoint, body, options, data) => {
     return response;
   } catch (error) {
     if (error.response.status === 500) {
-      alert("Error");
+      Alert.alert("Error");
     }
     return error.response;
   }

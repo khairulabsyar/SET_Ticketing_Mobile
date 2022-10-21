@@ -4,7 +4,9 @@ import * as yup from "yup";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiSignUp } from "../Api/users";
 import {
-  Button,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -12,17 +14,17 @@ import {
   View,
 } from "react-native";
 
-function SignUp({ navigation }) {
+function SignUp(props: any) {
   const queryClient = useQueryClient();
 
   const mutationSignUp = useMutation(apiSignUp, {
     onSuccess: () => {
       queryClient.invalidateQueries(["users"]);
-      navigation.navigate("Login");
-      alert("Please Sign In");
+      props.navigation.navigate("Login");
+      Alert.alert("Success! Please Sign In");
     },
     onError: () => {
-      alert("Unable to Sign Up");
+      Alert.alert("Unable to Sign Up");
     },
   });
 
@@ -57,7 +59,7 @@ function SignUp({ navigation }) {
   });
 
   const handleSignIn = () => {
-    navigation.navigate("Login");
+    props.navigation.navigate("Login");
   };
 
   const formik = useFormik({
@@ -83,87 +85,91 @@ function SignUp({ navigation }) {
   });
 
   const signUp = (
-    <View
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <Text style={styles.text}>First Name</Text>
-      <TextInput
-        value={formik.values.firstName}
-        onChangeText={formik.handleChange("firstName")}
-        onBlur={formik.handleBlur("firstName")}
-        autoCapitalize='none'
-        style={styles.textInput}
-      />
-      <Text style={styles.text}>Last Name</Text>
-      <TextInput
-        value={formik.values.lastName}
-        onChangeText={formik.handleChange("lastName")}
-        onBlur={formik.handleBlur("lastName")}
-        autoCapitalize='none'
-        style={styles.textInput}
-      />
-      <Text style={styles.text}>Email</Text>
-      <TextInput
-        value={formik.values.email}
-        onChangeText={formik.handleChange("email")}
-        onBlur={formik.handleBlur("email")}
-        autoCapitalize='none'
-        style={styles.textInput}
-      />
-      <Text style={styles.text}>Password</Text>
-      <TextInput
-        value={formik.values.password}
-        onChangeText={formik.handleChange("password")}
-        onBlur={formik.handleBlur("password")}
-        autoCapitalize='none'
-        style={styles.textInput}
-        secureTextEntry={true}
-      />
-      <Text style={styles.text}>Confirm Password</Text>
-      <TextInput
-        value={formik.values.changePassword}
-        onChangeText={formik.handleChange("changePassword")}
-        onBlur={formik.handleBlur("changePassword")}
-        autoCapitalize='none'
-        style={styles.textInput}
-        secureTextEntry={true}
-      />
-      <Text style={styles.text}>Role (Admin/Developer/Client)</Text>
-      <TextInput
-        value={formik.values.role}
-        onChangeText={formik.handleChange("role")}
-        onBlur={formik.handleBlur("role")}
-        autoCapitalize='none'
-        style={styles.textInput}
-      />
-      <Pressable
-        style={({ pressed }) => [
-          {
-            backgroundColor: pressed ? "lightgreen" : "pink",
-          },
-          styles.button,
-        ]}
-        onPress={formik.handleSubmit}
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
       >
-        <Text>Submit</Text>
-      </Pressable>
-      <Pressable
-        style={({ pressed }) => [
-          {
-            backgroundColor: pressed ? "lightgreen" : "pink",
-          },
-          styles.button,
-        ]}
-        onPress={handleSignIn}
-      >
-        <Text>Sign In</Text>
-      </Pressable>
-    </View>
+        <Text style={styles.text}>First Name</Text>
+        <TextInput
+          value={formik.values.firstName}
+          onChangeText={formik.handleChange("firstName")}
+          onBlur={formik.handleBlur("firstName")}
+          autoCapitalize='none'
+          style={styles.textInput}
+        />
+        <Text style={styles.text}>Last Name</Text>
+        <TextInput
+          value={formik.values.lastName}
+          onChangeText={formik.handleChange("lastName")}
+          onBlur={formik.handleBlur("lastName")}
+          autoCapitalize='none'
+          style={styles.textInput}
+        />
+        <Text style={styles.text}>Email</Text>
+        <TextInput
+          value={formik.values.email}
+          onChangeText={formik.handleChange("email")}
+          onBlur={formik.handleBlur("email")}
+          autoCapitalize='none'
+          style={styles.textInput}
+        />
+        <Text style={styles.text}>Password</Text>
+        <TextInput
+          value={formik.values.password}
+          onChangeText={formik.handleChange("password")}
+          onBlur={formik.handleBlur("password")}
+          autoCapitalize='none'
+          style={styles.textInput}
+          secureTextEntry={true}
+        />
+        <Text style={styles.text}>Confirm Password</Text>
+        <TextInput
+          value={formik.values.changePassword}
+          onChangeText={formik.handleChange("changePassword")}
+          onBlur={formik.handleBlur("changePassword")}
+          autoCapitalize='none'
+          style={styles.textInput}
+          secureTextEntry={true}
+        />
+        <Text style={styles.text}>Role (Admin/Developer/Client)</Text>
+        <TextInput
+          value={formik.values.role}
+          onChangeText={formik.handleChange("role")}
+          onBlur={formik.handleBlur("role")}
+          autoCapitalize='none'
+          style={styles.textInput}
+        />
+        <Pressable
+          style={({ pressed }) => [
+            {
+              backgroundColor: pressed ? "lightgreen" : "pink",
+            },
+            styles.button,
+          ]}
+          onPress={formik.handleSubmit}
+        >
+          <Text>Submit</Text>
+        </Pressable>
+        <Pressable
+          style={({ pressed }) => [
+            {
+              backgroundColor: pressed ? "lightgreen" : "pink",
+            },
+            styles.button,
+          ]}
+          onPress={handleSignIn}
+        >
+          <Text>Sign In</Text>
+        </Pressable>
+      </View>
+    </KeyboardAvoidingView>
   );
 
   return <View style={styles.container}>{signUp}</View>;
@@ -189,7 +195,7 @@ const styles = StyleSheet.create({
     width: 250,
     height: 35,
     padding: 5,
-    borderRadius: "10%",
+    borderRadius: 10,
   },
   button: {
     height: 40,
@@ -197,7 +203,7 @@ const styles = StyleSheet.create({
     margin: 2,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: "10%",
+    borderRadius: 20,
   },
 });
 

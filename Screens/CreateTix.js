@@ -6,6 +6,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { UseDialog, UseAuth } from "../Hooks";
+import { Alert } from "react-native";
+
+function alert(arg0) {
+  throw new Error(arg0);
+}
 
 function CreateTix() {
   const { id, createTicket } = UseAuth();
@@ -16,11 +21,11 @@ function CreateTix() {
   const cT = useMutation(createTicket, {
     onSuccess: () => {
       queryClient.invalidateQueries(["tickets"]);
-      alert("Successfully created new ticket");
+      Alert.alert("Successfully created new ticket");
       navigate("/show-tix");
     },
     onError: () => {
-      alert("Unable to create ticket");
+      Alert.alert("Unable to create ticket");
     },
   });
 
@@ -76,7 +81,7 @@ function CreateTix() {
           priority = 3;
           break;
         default:
-          alert("Error");
+          Alert.alert("Error");
           break;
       }
       switch (formik.values.status.toLowerCase()) {
@@ -90,7 +95,7 @@ function CreateTix() {
           status = 3;
           break;
         default:
-          alert("Error");
+          Alert.alert("Error");
           break;
       }
       switch (formik.values.category.toLowerCase()) {
@@ -104,7 +109,7 @@ function CreateTix() {
           category = 3;
           break;
         default:
-          alert("Error");
+          Alert.alert("Error");
           break;
       }
       const data = {

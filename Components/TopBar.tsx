@@ -15,7 +15,7 @@ function TopBar({ state, navigation }: any) {
           const isFocused = state.index === index;
 
           if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate({ name: route.name, merge: true });
+            // navigation.navigate({ name: route.name, merge: true });
           }
         };
         return (
