@@ -45,7 +45,7 @@ function SignInSignUp(props: any) {
       };
       signin(data);
       if (sucessLogin === true) {
-        props.navigation.navigate("Tickets");
+        props.navigation.navigate("Ticketing System");
       }
     },
   });

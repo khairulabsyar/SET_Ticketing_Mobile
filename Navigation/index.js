@@ -11,6 +11,8 @@ import { AuthProvider, DialogProvider } from "../Providers";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { UseAuth } from "../Hooks";
 import ShowTix from "../Screens/ShowTix";
+import BottomNavigator from "./BottomNavigator";
+import ShowDevs from "../Screens/ShowDevs";
 
 const ticketingStack = createNativeStackNavigator();
 
@@ -27,7 +29,7 @@ export default function App() {
             </>
           ) : (
             <>
-              <ticketingStack.Screen
+              {/* <ticketingStack.Screen
                 name={"Tickets"}
                 component={ShowTix}
                 options={{
@@ -43,39 +45,38 @@ export default function App() {
                   },
                 }}
               />
-              {/* <ticketingStack.Screen
-                name={"PokemonDetail"}
-                component={PokemonDetail}
-                options={({ navigation, route }) => ({
-                  title: route.params.pokemon.name.toUpperCase(),
-                  // title: "Pokemon Detail",
-                  headerStyle: {
-                    backgroundColor: getBackgroundColor(
-                      route.params.pokemon.types[0].type.name
-                    ),
-                  },
-                  headerLeft: () => (
-                    <Entypo
-                      onPress={() => navigation.goBack()}
-                      name='chevron-left'
-                      size={24}
-                      color='black'
-                    />
-                  ),
+              <ticketingStack.Screen
+                name={"Developers"}
+                component={ShowDevs}
+                options={{
                   headerRight: () => {
-                    const [selected, SetSelected] = useState();
-
                     return (
-                      <Entypo
-                        onPress={() => SetSelected(!selected)}
-                        name={selected ? "heart" : "heart-outlined"}
+                      <SimpleLineIcons
+                        onPress={() => logout()}
+                        name='logout'
                         size={24}
-                        color={selected ? "red" : "black"}
+                        color={"black"}
                       />
                     );
                   },
-                })}
+                }}
               /> */}
+              <ticketingStack.Screen
+                name={"Ticketing System"}
+                component={BottomNavigator}
+                options={{
+                  headerRight: () => {
+                    return (
+                      <SimpleLineIcons
+                        onPress={() => logout()}
+                        name='logout'
+                        size={24}
+                        color={"black"}
+                      />
+                    );
+                  },
+                }}
+              />
             </>
           )}
         </ticketingStack.Navigator>

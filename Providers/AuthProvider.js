@@ -31,6 +31,7 @@ function AuthProvider({ children }) {
       setUser(data?.data?.firstName);
       setRole(data?.data?.role);
       setId(data?.data?.id);
+      getDeveloper();
     } else {
       setSucessLogin(false);
     }
@@ -43,10 +44,6 @@ function AuthProvider({ children }) {
     const { data } = await apiGetDev(config);
     setGetDevList(data);
   };
-
-  useEffect(() => {
-    getDeveloper();
-  }, [token]);
 
   const createTicket = async (ticket) => {
     const config = {
@@ -75,7 +72,6 @@ function AuthProvider({ children }) {
       headers: { Authorization: `Bearer ${token}` },
     };
     const { data } = await editTix(con, tick, id);
-    console.log(data);
   };
 
   return (

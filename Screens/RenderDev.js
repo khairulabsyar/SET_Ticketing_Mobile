@@ -12,7 +12,8 @@ import { getBackgroundColor } from "../function";
 
 const WIDTH = Dimensions.get("window").height;
 
-export const RenderTicket = ({ item, navigation }) => {
+export const RenderDev = ({ item, navigation }) => {
+  console.log(item);
   const opacity = new Animated.Value(0.2);
   const scale = new Animated.Value(1);
 
@@ -41,34 +42,20 @@ export const RenderTicket = ({ item, navigation }) => {
   };
 
   return (
-    // {item.map((item)=>(
     <Animated.View style={{ opacity, transform: [{ scale }] }}>
       <Pressable
         onPress={onPress}
         style={[styles.pokemonView, { width: WIDTH * 0.22 }]}
       >
-        {/* Intro */}
         <View style={{ flexDirection: "row" }}>
           <Text style={[{ fontWeight: "bold" }, styles.textName]}>
-            Ticket ID:{" "}
+            Developer ID:{" "}
           </Text>
           <Text style={[{ fontWeight: "bold" }, styles.textName]}>
             {item.id}
           </Text>
         </View>
 
-        {/* Title */}
-        <View
-          style={{
-            flexDirection: "column",
-            marginTop: 10,
-          }}
-        >
-          <Text style={{ color: "#1DA1F2", fontWeight: "bold" }}>Title:</Text>
-          <Text style={styles.textName}>{item.title}</Text>
-        </View>
-
-        {/* Developer */}
         <View
           style={{
             flexDirection: "column",
@@ -76,14 +63,11 @@ export const RenderTicket = ({ item, navigation }) => {
           }}
         >
           <Text style={{ color: "#1DA1F2", fontWeight: "bold" }}>
-            Assign to:
+            First Name:
           </Text>
-          <Text style={styles.textName}>
-            {item.developer ? item.developer : "Unassigned"}
-          </Text>
+          <Text style={styles.textName}>{item.first_name}</Text>
         </View>
 
-        {/* Description */}
         <View
           style={{
             flexDirection: "column",
@@ -91,12 +75,11 @@ export const RenderTicket = ({ item, navigation }) => {
           }}
         >
           <Text style={{ color: "#1DA1F2", fontWeight: "bold" }}>
-            Description:{" "}
+            Last Name:
           </Text>
-          <Text style={styles.textName}>{item.description}</Text>
+          <Text style={styles.textName}>{item.last_name}</Text>
         </View>
 
-        {/* Category */}
         <View
           style={{
             flexDirection: "column",
@@ -104,27 +87,9 @@ export const RenderTicket = ({ item, navigation }) => {
           }}
         >
           <Text style={{ color: "#1DA1F2", fontWeight: "bold" }}>
-            Category:
+            Contail Detail:
           </Text>
-          <Text style={styles.textName}>{item.category}</Text>
-        </View>
-
-        {/* Status */}
-        <View
-          style={{
-            flexDirection: "column",
-            marginTop: 10,
-          }}
-        >
-          <Text style={{ color: "#1DA1F2", fontWeight: "bold" }}>Status:</Text>
-          <Text
-            style={[
-              styles.textName,
-              { color: getBackgroundColor(item.status) },
-            ]}
-          >
-            {item.status}
-          </Text>
+          <Text style={styles.textName}>{item.email}</Text>
         </View>
       </Pressable>
     </Animated.View>
@@ -140,7 +105,7 @@ const styles = StyleSheet.create({
   pokemonView: {
     borderWidth: 1,
     borderColor: "red",
-    height: 400,
+    height: 250,
     padding: 10,
     margin: 5,
     backgroundColor: "black",
